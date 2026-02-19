@@ -19,7 +19,23 @@ if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
 }
 
 // 2️⃣ Responde rápido pro POST da Meta
-http_response_code(200);
+//manda a resposta para a api da meta antes de dar o sleep()
+ignore_user_abort(true);
+
+// Inicia o buffer de saída
+ob_start();
+
+// Define o cabeçalho HTTP 200 OK
+header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+header("Status: 200 OK");
+header("Content-Type: application/json");
+
+// Obtém o comprimento do conteúdo do buffer de saída
+header('Content-Length: ' . ob_get_length());
+
+// Envia o conteúdo do buffer de saída para o cliente
+ob_end_flush();
+ob_flush();
 flush();
 
 // 3️⃣ Lê o JSON do POST
@@ -38,4 +54,3 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $result = curl_exec($ch);
 curl_close($ch);
-?>
