@@ -28,6 +28,11 @@ flush();
 // 3️⃣ Lê o JSON recebido
 $input = file_get_contents('php://input');
 
+// Se estiver vazio (ex.: ping do cron), não repassa pro CRM
+if (empty(trim($input))) {
+    exit;
+}
+
 // 4️⃣ Log local (para debug e auditoria)
 file_put_contents(
     'log_proxy.txt',
