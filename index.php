@@ -18,6 +18,12 @@ if (isset($_GET['hub_challenge']) && isset($_GET['hub_verify_token'])) {
     }
 }
 
+
+if (isset($_GET['log'])) {
+    echo nl2br(file_get_contents('log_proxy.txt'));
+    exit;
+}
+
 // 2️⃣ Responde imediatamente pra Meta (evita timeout)
 ignore_user_abort(true);
 header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
